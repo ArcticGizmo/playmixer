@@ -12,9 +12,9 @@
 </template>
 
 <script lang="ts" setup>
-import ModalProvider from '@/components/ModalProvider.vue';
+import ModalProvider from '@/modals/ModalProvider.vue';
 import { useErrorCollector } from './composables/error';
-import { useModalController } from './composables/modal';
+import { useModalController } from './modals';
 import ErrorCollectorModal from '@/modals/ErrorCollectorModal.vue';
 
 const modalController = useModalController();
@@ -35,3 +35,4 @@ const onShowErrors = async () => {
   right: 1rem;
 }
 </style>
+./modals/modal ./modals

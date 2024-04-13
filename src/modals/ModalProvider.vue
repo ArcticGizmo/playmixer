@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { MODAL_LOOKUP } from '@/composables/modal';
+import { MODAL_LOOKUP } from '.';
 import { computed, onBeforeUnmount } from 'vue';
 
 const modals = computed(() => Object.values(MODAL_LOOKUP.value));
@@ -35,3 +35,4 @@ onBeforeUnmount(() => {
   pointer-events: none;
 }
 </style>
+@/modals/modal

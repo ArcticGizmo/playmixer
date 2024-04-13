@@ -1,90 +1,92 @@
 <template>
   <v-container class="shrinker-config pt-10">
-    <form @submit.prevent="onSubmit">
-      <h4>Pick your playlists</h4>
-      <v-autocomplete
-        label="Playlist"
-        v-model="autocompleteValue"
-        :items="playlists"
-        item-title="name"
-        return-object
-        clear-on-select
-        @update:model-value="(p: any) => onSelect(p)"
-      >
-        <template v-slot:item="{ props, item }">
-          <v-list-item
-            v-bind="props"
-            :prepend-avatar="item.raw.imageSrc"
-            :title="item.raw.name"
-            :subtitle="item.raw.trackCount"
-          />
-        </template>
-      </v-autocomplete>
-      <v-text-field v-model="playlistUrl" label="Load from Share Link">
-        <template #append>
-          <v-btn color="primary" :disabled="!playlistUrl" @click="onLoadShareLink()">Load</v-btn>
-        </template>
-      </v-text-field>
-
-      <v-list class="mb-6">
-        <v-list-item
-          v-for="(playlist, index) of form.playlists"
-          :key="index"
-          :prepend-avatar="playlist.imageSrc"
-          :title="playlist.name"
-          :subtitle="playlist.trackCount"
+    <v-card class="pa-10">
+      <form @submit.prevent="onSubmit">
+        <h4>Pick your playlists</h4>
+        <v-autocomplete
+          label="Playlist"
+          v-model="autocompleteValue"
+          :items="playlists"
+          item-title="name"
+          return-object
+          clear-on-select
+          @update:model-value="(p: any) => onSelect(p)"
         >
-          <template #append>
-            <v-btn
-              icon="mdi-delete"
-              color="error"
-              variant="tonal"
-              @click="onRemovePlaylist(playlist.id)"
+          <template v-slot:item="{ props, item }">
+            <v-list-item
+              v-bind="props"
+              :prepend-avatar="item.raw.imageSrc"
+              :title="item.raw.name"
+              :subtitle="item.raw.trackCount"
             />
           </template>
-        </v-list-item>
-      </v-list>
+        </v-autocomplete>
+        <v-text-field v-model="playlistUrl" label="Load from Share Link">
+          <template #append>
+            <v-btn color="primary" :disabled="!playlistUrl" @click="onLoadShareLink()">Load</v-btn>
+          </template>
+        </v-text-field>
 
-      <h4>Configuration</h4>
-      <br />
+        <v-list class="mb-6">
+          <v-list-item
+            v-for="(playlist, index) of form.playlists"
+            :key="index"
+            :prepend-avatar="playlist.imageSrc"
+            :title="playlist.name"
+            :subtitle="playlist.trackCount"
+          >
+            <template #append>
+              <v-btn
+                icon="mdi-delete"
+                color="error"
+                variant="tonal"
+                @click="onRemovePlaylist(playlist.id)"
+              />
+            </template>
+          </v-list-item>
+        </v-list>
 
-      <!-- Team Count -->
-      <v-slider
-        v-model="form.tracksPerRound"
-        label="Tracks per Round"
-        :min="2"
-        :max="4"
-        :step="1"
-        thumb-label="always"
-        :disabled="!hasPlaylists"
-      />
+        <h4>Configuration</h4>
+        <br />
 
-      <!-- Rounds -->
-      <v-slider
-        v-model="form.maxRounds"
-        label="Max Rounds"
-        :min="1"
-        :max="maxRounds"
-        :step="1"
-        thumb-label="always"
-        :disabled="!hasPlaylists"
-      />
+        <!-- Team Count -->
+        <v-slider
+          v-model="form.tracksPerRound"
+          label="Tracks per Round"
+          :min="2"
+          :max="4"
+          :step="1"
+          thumb-label="always"
+          :disabled="!hasPlaylists"
+        />
 
-      <!-- preview time -- radio -->
-      <v-slider
-        v-model="form.previewLimit"
-        label="Preview Length (sec)"
-        :min="0"
-        :max="30"
-        :step="1"
-        thumb-label="always"
-      />
-    </form>
-    <div class="actions d-flex">
-      <v-btn color="primary" @click="onBack()">Back</v-btn>
-      <v-spacer></v-spacer>
-      <v-btn color="primary" :disabled="!hasPlaylists" @click="onSubmit()">Next</v-btn>
-    </div>
+        <!-- Rounds -->
+        <v-slider
+          v-model="form.maxRounds"
+          label="Max Rounds"
+          :min="1"
+          :max="maxRounds"
+          :step="1"
+          thumb-label="always"
+          :disabled="!hasPlaylists"
+        />
+
+        <!-- preview time -- radio -->
+        <v-slider
+          v-model="form.previewLimit"
+          label="Preview Length (sec)"
+          :min="0"
+          :max="30"
+          :step="1"
+          thumb-label="always"
+        />
+      </form>
+      <div class="actions d-flex">
+        <v-btn color="primary" @click="onBack()">Back</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" :disabled="!hasPlaylists" @click="onSubmit()">Next</v-btn>
+      </div>
+    </v-card>
   </v-container>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
-  <div class="spotify-track pa-6">
+  <div class="spotify-track pa-4">
     <div class="content">
       <v-img :src="artworkSrc" aspect-ratio="1" />
-      <div>
+      <div class="mt-2">
         <div class="text-h6">{{ trackName }}</div>
         <div class="text-overline">{{ artist }}</div>
         <div class="text-caption">link</div>

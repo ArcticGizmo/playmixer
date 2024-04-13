@@ -4,11 +4,15 @@
     <ShrinkerConfig v-else-if="stage === 'config'" @next="goToPlay" />
     <ShrinkerPlay
       v-else-if="stage === 'play'"
+      :is-started="isStarted"
       :max-rounds="maxRounds"
       :round-index="roundIndex"
       :preview-duration="previewDuration"
       :round="currentRound"
       @select="e => nextRound(e.kept, e.removed)"
+      @back="previousRound()"
+      @next="nextRound([], [])"
+      @start="start()"
     />
     <ShrinkerResults v-else-if="stage === 'results'" />
   </div>
@@ -26,9 +30,12 @@ const {
   goToConfig,
   goToPlay,
   nextRound,
+  previousRound,
   roundIndex,
   maxRounds,
   currentRound,
   previewDuration,
+  start,
+  isStarted,
 } = useShrinker();
 </script>

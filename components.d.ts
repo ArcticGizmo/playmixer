@@ -20,5 +20,6 @@ declare module 'vue' {
     ShrinkerResults: typeof import('./src/components/shrinker/ShrinkerResults.vue')['default']
     ShrinkerWelcome: typeof import('./src/components/shrinker/ShrinkerWelcome.vue')['default']
     SpotifyTrack: typeof import('./src/components/SpotifyTrack.vue')['default']
+    StartOverlay: typeof import('./src/components/StartOverlay.vue')['default']
   }
 }

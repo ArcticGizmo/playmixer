@@ -8,12 +8,10 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@auth0/auth0-vue": "^2.3.3",
     "@mdi/font": "6.2.95",
     "@spotify/web-api-ts-sdk": "^1.2.0",
     "@vueuse/core": "^10.9.0",
     "core-js": "^3.34.0",
-    "fast-average-color": "^9.4.0",
     "howler": "^2.2.4",
     "roboto-fontface": "*",
     "vue": "^3.4.21",

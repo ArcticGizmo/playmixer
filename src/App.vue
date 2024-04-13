@@ -35,4 +35,3 @@ const onShowErrors = async () => {
   right: 1rem;
 }
 </style>
-./modals/modal ./modals

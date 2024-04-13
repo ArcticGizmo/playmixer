@@ -7,10 +7,12 @@
       <v-card-text>Lets try and cut down those massive playlists shall we!</v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn class="float-right"> Start<v-icon>mdi-arrow-right</v-icon> </v-btn>
+        <v-btn class="float-right" :to="{ name: 'playlist shrinker' }">
+          Start<v-icon>mdi-arrow-right</v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
-    <v-btn class="mt-4" variant="tonal" @click="onLogout()">Logout</v-btn>
+    <v-btn class="mt-4" variant="tonal" @click="onLogout">Logout</v-btn>
   </BaseFullScreenPage>
 </template>
 

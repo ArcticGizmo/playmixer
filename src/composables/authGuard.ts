@@ -6,10 +6,11 @@ export const useRouteGuard = async (
   from: RouteLocationNormalized,
   next: NavigationGuardNext,
 ) => {
-  const { isAuthenticated } = useSpotifyAuth();
+  const { isAuthenticated, checkSession } = useSpotifyAuth();
 
   if (!to.meta.requiresAuth) return next();
 
+  await checkSession();
   if (isAuthenticated.value) {
     next();
     return;

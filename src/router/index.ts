@@ -7,16 +7,27 @@ import LoginPage from '@/pages/LoginPage.vue';
 import AuthErrorPage from '@/pages/AuthErrorPage.vue';
 import SpotifyCallbackPage from '@/pages/SpotifyCallbackPage.vue';
 import { useRouteGuard } from '@/composables/authGuard';
+import PlaylistShrinkerPage from '@/pages/PlaylistShrinkerPage.vue';
 
 export const routes: RouteRecordRaw[] = [
+  // {
+  //   path: '/',
+  //   redirect: '/login',
+  // },
   {
     path: '/',
-    redirect: '/login',
+    redirect: '/playlist-shrinker',
   },
   {
     path: '/home',
     name: 'home',
     component: HomePage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/playlist-shrinker',
+    name: 'playlist shrinker',
+    component: PlaylistShrinkerPage,
     meta: { requiresAuth: true },
   },
   {

@@ -100,6 +100,7 @@ export const useShrinker = () => {
   };
 
   const nextRound = (kept: Track[], removed: Track[]) => {
+    AudioManager.stop();
     results.value.push({ kept, removed });
     const nextRoundIndex = roundIndex.value + 1;
     if (nextRoundIndex > maxRounds.value - 1) {
@@ -112,11 +113,13 @@ export const useShrinker = () => {
   };
 
   const previousRound = () => {
+    AudioManager.stop();
     if (roundIndex.value < 1) {
       return;
     }
     roundIndex.value -= 1;
     results.value.pop();
+    play();
   };
 
   const goToResults = () => {
@@ -140,5 +143,3 @@ export const useShrinker = () => {
     isStarted: readonly(isStarted),
   };
 };
-
-// TODO: expose audio loader? Or maybe just sideload it

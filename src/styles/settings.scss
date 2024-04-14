@@ -21,6 +21,10 @@
     opacity: 0;
   }
 
+  5% {
+    opacity: 0;
+  }
+
   40% {
     transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
     animation-timing-function: ease-in;
@@ -71,20 +75,6 @@
   animation-name: animationFloat;
 }
 
-@keyframes animationLoadingBar {
-  from {
-    transform: scaleX(1);
-  }
-
-  to {
-    transform: scaleX(0);
-  }
-}
-
-.animationLoadingBar {
-  animation-name: animationLoadingBar;
-}
-
 @keyframes animationTada {
   from {
     transform: scale3d(1, 1, 1);
@@ -99,13 +89,13 @@
   50%,
   70%,
   90% {
-    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    transform: scale3d(1.75, 1.75, 1.75) rotate3d(0, 0, 1, 3deg);
   }
 
   40%,
   60%,
   80% {
-    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    transform: scale3d(1.75, 1.75, 1.75) rotate3d(0, 0, 1, -3deg);
   }
 
   to {

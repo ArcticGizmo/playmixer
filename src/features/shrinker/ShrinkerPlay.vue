@@ -45,20 +45,37 @@
             :artwork-src="track.imageSrc"
             :artist="track.artist"
           >
-            <v-tooltip location="top">
-              <template #activator="{ props: p }">
-                <v-btn
-                  v-bind="p"
-                  class="float-right"
-                  :class="{ 'keep-btn': round.done.value }"
-                  icon="mdi-heart"
-                  :color="round.done.value ? '' : 'primary'"
-                  size="small"
-                  @click="onSelect(index)"
-                />
-              </template>
-              Keep
-            </v-tooltip>
+            <div class="d-flex">
+              <v-tooltip location="top">
+                <template #activator="{ props: p }">
+                  <v-btn
+                    v-bind="p"
+                    icon
+                    variant="text"
+                    href="https://open.spotify.com/track/7nkp1uuSbKkoxMvEs8cSw0"
+                    target="_blank"
+                  >
+                    <v-img src="/spotify.svg" height="2.5rem" width="2.5rem"></v-img>
+                  </v-btn>
+                </template>
+                View on Spotify
+              </v-tooltip>
+              <v-spacer></v-spacer>
+              <v-tooltip location="top">
+                <template #activator="{ props: p }">
+                  <v-btn
+                    v-show="round.done.value"
+                    v-bind="p"
+                    class="keep-btn"
+                    :class="{ 'keep-btn': round.done.value }"
+                    icon="mdi-heart"
+                    size="small"
+                    @click="onSelect(index)"
+                  />
+                </template>
+                Keep
+              </v-tooltip>
+            </div>
           </SpotifyTrack>
         </CenteredDiv>
       </AspectContainer>
@@ -142,7 +159,7 @@ const onSelect = (index: number) => {
 
 .keep-btn {
   animation: animationTada;
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-timing-function: ease-in-out;
 }
 

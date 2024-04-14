@@ -30,7 +30,6 @@ defineProps<{
   artworkSrc?: string;
   trackName: string;
   artist?: string;
-  link?: string;
   horizontal?: boolean;
 }>();
 </script>

@@ -11,6 +11,7 @@ declare module 'vue' {
     CenteredDiv: typeof import('./src/components/CenteredDiv.vue')['default']
     DivOverlay: typeof import('./src/components/DivOverlay.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    InfiniteScroller: typeof import('./src/components/InfiniteScroller.vue')['default']
     ModalProvider: typeof import('./src/components/ModalProvider.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -20,6 +21,7 @@ declare module 'vue' {
     ShrinkerResults: typeof import('./src/components/shrinker/ShrinkerResults.vue')['default']
     ShrinkerWelcome: typeof import('./src/components/shrinker/ShrinkerWelcome.vue')['default']
     SpotifyTrack: typeof import('./src/components/SpotifyTrack.vue')['default']
+    SpotifyTrackTile: typeof import('./src/components/SpotifyTrackTile.vue')['default']
     StartOverlay: typeof import('./src/components/StartOverlay.vue')['default']
   }
 }

@@ -14,7 +14,7 @@
       @next="nextRound([], [])"
       @start="start()"
     />
-    <ShrinkerResults v-else-if="stage === 'results'" />
+    <ShrinkerResults v-else-if="stage === 'results'" :kept="results.map(r => r.kept).flat()" :removed="results.map(r => r.removed).flat()" />
   </div>
 </template>
 
@@ -37,5 +37,6 @@ const {
   previewDuration,
   start,
   isStarted,
+  results,
 } = useShrinker();
 </script>

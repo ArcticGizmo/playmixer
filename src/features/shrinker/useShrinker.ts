@@ -9,6 +9,7 @@ import {
 } from './shrinker.types';
 import { Track } from '@/types/spotify.types';
 import { AudioManager } from '@/composables/audio';
+import { useToast } from 'vue-toast-notification';
 
 const DEFAULT_PREVIEW_DURATION = 5_000;
 
@@ -22,6 +23,7 @@ const isTrackLoading = (previewUrl: string) => {
 };
 
 export const useShrinker = () => {
+  const toast = useToast();
   const roundIndex = ref<number>(0);
   const stage = ref<ShrinkerStage>('welcome');
   const previewDuration = ref(DEFAULT_PREVIEW_DURATION);
@@ -60,7 +62,11 @@ export const useShrinker = () => {
     await delay(100);
     for (const track of currentRound.value.tracks) {
       track.show.value = true;
-      await AudioManager.play(track.previewUrl!);
+      if (track.previewUrl) {
+        await AudioManager.play(track.previewUrl);
+      } else {
+        toast.warning(`${track.name} does not have a preview`);
+      }
       await delay(500);
     }
     currentRound.value.done.value = true;

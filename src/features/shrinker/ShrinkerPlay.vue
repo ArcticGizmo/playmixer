@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="tracks" :class="{ vertical: !horizontal, horizontal }">
+    <div class="tracks pa-3" :class="{ vertical: !horizontal, horizontal }">
       <AspectContainer
         v-for="(track, index) of round.tracks"
         :key="index"
@@ -111,7 +111,7 @@ const { width, height } = useWindowSize();
 const horizontal = computed(() => width.value > height.value);
 
 const aspectRatio = computed(() => {
-  return horizontal.value ? '0.75' : '1.8';
+  return horizontal.value ? '0.75' : '3';
 });
 
 const onSelect = (index: number) => {

@@ -14,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+import AspectContainer from './AspectContainer.vue';
+
 defineProps<{
   artworkSrc?: string;
   trackName: string;

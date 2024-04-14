@@ -124,6 +124,7 @@ import { PlayConfig, ShrinkerRound } from './shrinker.types';
 import { shuffleInPlace } from '@/util/shuffle';
 import { chunk } from '@/util/enumerable';
 import SpotifyTrackTile from '@/components/SpotifyTrackTile.vue';
+import InfiniteScroller from '@/components/InfiniteScroller.vue';
 
 interface Form {
   playlists: Playlist[];

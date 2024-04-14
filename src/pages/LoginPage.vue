@@ -1,32 +1,30 @@
 <template>
   <BaseFullScreenPage class="bg text-center">
     <v-card class="login-island pa-10">
-      <div class="grid h-100">
-        <div class="text-h2">Welcome!</div>
-        <div class="content">
-          <p>I hope this makes it easier to crop your huge playlists into much smaller pieces!</p>
-          <p>
-            This does mean upon logging in, you will be requested to consent to this application
-            <strong>creating playlists on your behalf</strong>.
-          </p>
-          <p>
-            Playlists will only be created if you choose to do so, and this consent can be revoked
-            at any time from your
-            <a aria-label="View spotify account" href="https://www.spotify.com/account/apps/">
-              spotify account
-            </a>
-          </p>
-          <p>
-            If you do have a good time with the application, please let me know
-            <a href="mailto:jon.howell314@gmail.com">via email</a>!
-          </p>
-        </div>
-
-        <v-btn variant="elevated" color="secondary" size="large" @click="login()">
-          <v-img class="spotify-logo mr-4" src="/spotify.svg" height="2rem" width="2rem" />
-          Login with spotify
-        </v-btn>
+      <h1>Welcome!</h1>
+      <div class="content">
+        <p>I hope this makes it easier to crop your huge playlists into much smaller pieces!</p>
+        <p>
+          This does mean upon logging in, you will be requested to consent to this application
+          <strong>creating playlists on your behalf</strong>.
+        </p>
+        <p>
+          Playlists will only be created if you choose to do so, and this consent can be revoked at
+          any time from your
+          <a aria-label="View spotify account" href="https://www.spotify.com/account/apps/">
+            spotify account
+          </a>
+        </p>
+        <p>
+          If you do have a good time with the application, please let me know
+          <a href="mailto:jon.howell314@gmail.com">via email</a>!
+        </p>
       </div>
+
+      <v-btn variant="elevated" color="secondary" size="large" @click="login()">
+        <v-img class="spotify-logo mr-4" src="/spotify.svg" height="2rem" width="2rem" />
+        Login with spotify
+      </v-btn>
     </v-card>
   </BaseFullScreenPage>
 </template>
@@ -74,8 +72,7 @@ p {
 
 .login-island {
   max-width: 500px;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
   max-height: 600px;
 }
 </style>

@@ -18,6 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import CenteredDiv from './CenteredDiv.vue';
+
 defineProps<{ show?: boolean; color?: string; opacity?: number }>();
 </script>
 

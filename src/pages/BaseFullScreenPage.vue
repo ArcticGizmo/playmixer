@@ -1,7 +1,7 @@
 <template>
   <v-container class="pa-6 fill-height" fluid>
     <CenteredDiv
-      class="w-100"
+      class="w-100 h-100"
       :vertical-only="verticalOnly"
       :horizontal-only="horizontalOnly"
       wrap-children

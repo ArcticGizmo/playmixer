@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import CenteredDiv from './CenteredDiv.vue';
 defineProps<{
   show: boolean;
 }>();

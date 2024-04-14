@@ -7,7 +7,7 @@ const SCOPES: string[] = ['playlist-modify-public'];
 
 const SDK = SpotifyApi.withUserAuthorization(
   import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-  import.meta.env.VITE_REDIRECT_TARGET,
+  import.meta.env.VITE_SPOTIFY_REDIRECT_TARGET,
   SCOPES,
 );
 

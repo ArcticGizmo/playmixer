@@ -165,10 +165,16 @@ const onSubmit = async () => {
       })
       .slice(0, form.value.maxRounds);
 
-    emits('next', {
+    const payload: PlayConfig = {
       previewDuration: form.value.previewLimit * 1000,
       rounds,
-    });
+    };
+
+    if (import.meta.env.DEV) {
+      console.dir(payload);
+    }
+
+    emits('next', payload);
   } finally {
     isLoading.value = false;
   }

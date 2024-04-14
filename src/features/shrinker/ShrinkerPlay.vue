@@ -35,8 +35,12 @@
       </div>
     </div>
 
-    <div class="tracks" :class="{ vertical, horizontal: !vertical }">
-      <AspectContainer v-for="(track, index) of round.tracks" :key="index" aspect-ratio="1 / 1.5">
+    <div class="tracks" :class="{ vertical: !horizontal, horizontal }">
+      <AspectContainer
+        v-for="(track, index) of round.tracks"
+        :key="index"
+        :aspect-ratio="aspectRatio"
+      >
         <CenteredDiv>
           <SpotifyTrack
             v-show="track.show.value"
@@ -44,17 +48,12 @@
             :track-name="track.name"
             :artwork-src="track.imageSrc"
             :artist="track.artist"
+            :horizontal="!horizontal"
           >
             <div class="d-flex">
               <v-tooltip location="top">
                 <template #activator="{ props: p }">
-                  <v-btn
-                    v-bind="p"
-                    icon
-                    variant="text"
-                    href="https://open.spotify.com/track/7nkp1uuSbKkoxMvEs8cSw0"
-                    target="_blank"
-                  >
+                  <v-btn v-bind="p" icon variant="text" :href="track.href" target="_blank">
                     <v-img src="/spotify.svg" height="2.5rem" width="2.5rem"></v-img>
                   </v-btn>
                 </template>
@@ -110,7 +109,11 @@ const emits = defineEmits<{
 }>();
 
 const { width, height } = useWindowSize();
-const vertical = computed(() => height.value > width.value);
+const horizontal = computed(() => width.value > height.value);
+
+const aspectRatio = computed(() => {
+  return horizontal.value ? '0.75' : '1.8';
+});
 
 const onSelect = (index: number) => {
   const kept: Track[] = [];

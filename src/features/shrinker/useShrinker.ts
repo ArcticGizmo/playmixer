@@ -36,6 +36,7 @@ export const useShrinker = () => {
 
     const tracks: ShrinkerActiveTrack[] = cr.tracks.map(t => {
       return {
+        href: t.href,
         name: t.name,
         artist: t.artist,
         imageSrc: t.imageSrc,

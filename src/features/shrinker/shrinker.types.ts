@@ -12,11 +12,7 @@ export interface ShrinkerActiveRound {
   done: Ref<boolean>;
 }
 
-export interface ShrinkerActiveTrack {
-  name: string;
-  artist: string;
-  imageSrc?: string;
-  previewUrl?: string;
+export interface ShrinkerActiveTrack extends Track {
   show: Ref<boolean>;
   loading: ComputedRef<boolean>;
 }

@@ -89,7 +89,7 @@ const getPlaylist = async (id: string): Promise<Playlist> => {
 const getPlaylistTracks = async (id: string): Promise<Track[]> => {
   const allTracks: Track[] = [];
 
-  const FIELDS = 'items.track(name,artists,preview_url,album.images)';
+  const FIELDS = 'items.track(name,external_urls,artists,preview_url,album.images)';
   const LIMIT = 50;
   const MAX_LOOPS = 20;
 
@@ -100,6 +100,7 @@ const getPlaylistTracks = async (id: string): Promise<Track[]> => {
     for (const r of resp.items) {
       const imageSrc = r.track.album.images[0]?.url || undefined;
       tracks.push({
+        href: r.track.external_urls.spotify,
         name: r.track.name,
         artist: r.track.artists[0]?.name ?? 'unknown',
         imageSrc,

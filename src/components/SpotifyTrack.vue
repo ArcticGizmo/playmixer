@@ -1,12 +1,26 @@
 <template>
   <div class="spotify-track pa-4">
     <div class="content">
-      <v-img :src="artworkSrc" aspect-ratio="1" />
-      <div class="mt-2">
-        <div class="text-h6">{{ trackName }}</div>
-        <div class="text-overline">{{ artist }}</div>
-        <slot></slot>
-      </div>
+      <template v-if="horizontal">
+        <div class="top">
+          <v-img :src="artworkSrc" aspect-ratio="1" />
+          <div class="pl-4">
+            <div class="text-h6">{{ trackName }}</div>
+            <div class="text-left text-overline">{{ artist }}</div>
+          </div>
+        </div>
+        <div class="bottom mt-2">
+          <slot></slot>
+        </div>
+      </template>
+      <template v-else>
+        <v-img :src="artworkSrc" aspect-ratio="1" />
+        <div class="mt-2">
+          <div class="text-h6">{{ trackName }}</div>
+          <div class="text-overline">{{ artist }}</div>
+          <slot></slot>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -17,6 +31,7 @@ defineProps<{
   trackName: string;
   artist?: string;
   link?: string;
+  horizontal?: boolean;
 }>();
 </script>
 
@@ -36,5 +51,10 @@ defineProps<{
   height: 100%;
   width: 100%;
   grid-template-rows: 1fr auto;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
 }
 </style>

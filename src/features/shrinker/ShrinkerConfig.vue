@@ -74,36 +74,30 @@
         <br />
 
         <!-- Team Count -->
+        <v-label>Tracks per round ({{ form.tracksPerRound }})</v-label>
         <v-slider
           v-model="form.tracksPerRound"
-          label="Tracks per Round"
           :min="2"
           :max="4"
           :step="1"
-          thumb-label="always"
+          thumb-label
           :disabled="!trackCount"
         />
 
         <!-- Rounds -->
+        <v-label>Max Rounds ({{ form.maxRounds }})</v-label>
         <v-slider
           v-model="form.maxRounds"
-          label="Max Rounds"
           :min="1"
           :max="maxRounds"
           :step="1"
-          thumb-label="always"
+          thumb-label
           :disabled="!maxRounds"
         />
 
         <!-- preview time -->
-        <v-slider
-          v-model="form.previewLimit"
-          label="Preview Length (sec)"
-          :min="0"
-          :max="30"
-          :step="1"
-          thumb-label="always"
-        />
+        <v-label>Preview Length ({{ form.previewLimit }} sec)</v-label>
+        <v-slider v-model="form.previewLimit" :min="1" :max="30" :step="1" thumb-label />
       </form>
       <div class="actions d-flex">
         <v-btn color="primary" @click="onBack()">Back</v-btn>

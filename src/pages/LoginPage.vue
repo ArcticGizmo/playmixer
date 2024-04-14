@@ -21,10 +21,15 @@
         </p>
       </div>
 
-      <v-btn variant="elevated" color="secondary" size="large" @click="login()">
+      <v-btn class="mt-6" variant="elevated" color="secondary" size="large" @click="login()">
         <v-img class="spotify-logo mr-4" src="/spotify.svg" height="2rem" width="2rem" />
         Login with spotify
       </v-btn>
+
+      <div class="trouble-logging-in mt-6">
+        If you are having trouble logging in,
+        <v-btn class="ma-0 pa-0" variant="plain" color="purple" @click="logout()">try this</v-btn>
+      </div>
     </v-card>
   </BaseFullScreenPage>
 </template>
@@ -37,7 +42,7 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const { login, isAuthenticated, checkSession } = useSpotifyAuth();
+const { login, logout, isAuthenticated, checkSession } = useSpotifyAuth();
 
 watch(isAuthenticated, isAuthed => {
   if (isAuthed) {

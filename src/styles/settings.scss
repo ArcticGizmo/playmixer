@@ -14,37 +14,6 @@
   z-index: 1000000;
 }
 
-@keyframes animationFlipInX {
-  from {
-    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-
-  40% {
-    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    animation-timing-function: ease-in;
-  }
-
-  60% {
-    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    opacity: 1;
-  }
-
-  80% {
-    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-  }
-
-  to {
-    transform: perspective(400px);
-  }
-}
-
-.animationFlipInX {
-  backface-visibility: visible !important;
-  animation-name: animationFlipInX;
-}
-
 @keyframes animationFloat {
   from {
     transform: rotate(0deg);
@@ -71,16 +40,59 @@
   animation-name: animationFloat;
 }
 
-@keyframes animationLoadingBar {
+@keyframes animationTada {
   from {
-    transform: scaleX(1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  10%,
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: scale3d(1.75, 1.75, 1.75) rotate3d(0, 0, 1, 3deg);
+  }
+
+  40%,
+  60%,
+  80% {
+    transform: scale3d(1.75, 1.75, 1.75) rotate3d(0, 0, 1, -3deg);
   }
 
   to {
-    transform: scaleX(0);
+    transform: scale3d(1, 1, 1);
   }
 }
 
-.animationLoadingBar {
-  animation-name: animationLoadingBar;
+.animationTada {
+  animation-name: animationTada;
+}
+
+@keyframes animateJackInTheBox {
+  from {
+    opacity: 0;
+    transform: scale(0.1) rotate(30deg);
+    transform-origin: center bottom;
+  }
+
+  50% {
+    transform: rotate(-10deg);
+  }
+
+  70% {
+    transform: rotate(3deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animateJackInTheBox {
+  animation-name: animateJackInTheBox;
 }

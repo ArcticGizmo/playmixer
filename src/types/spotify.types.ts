@@ -6,6 +6,7 @@ export interface Playlist {
 }
 
 export interface Track {
+  uri: string;
   href: string;
   name: string;
   artist: string;

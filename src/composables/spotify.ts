@@ -1,8 +1,9 @@
 import { Playlist, Track } from '@/types/spotify.types';
+import { chunkUneven } from '@/util/enumerable';
 import { SpotifyApi, UserProfile } from '@spotify/web-api-ts-sdk';
 import { readonly, ref } from 'vue';
 
-const SCOPES: string[] = [];
+const SCOPES: string[] = ['playlist-modify-public'];
 
 const SDK = SpotifyApi.withUserAuthorization(
   import.meta.env.VITE_SPOTIFY_CLIENT_ID,
@@ -89,7 +90,7 @@ const getPlaylist = async (id: string): Promise<Playlist> => {
 const getPlaylistTracks = async (id: string): Promise<Track[]> => {
   const allTracks: Track[] = [];
 
-  const FIELDS = 'items.track(name,external_urls,artists,preview_url,album.images)';
+  const FIELDS = 'items.track(uri,name,external_urls,artists,preview_url,album.images)';
   const LIMIT = 50;
   const MAX_LOOPS = 20;
 
@@ -100,6 +101,7 @@ const getPlaylistTracks = async (id: string): Promise<Track[]> => {
     for (const r of resp.items) {
       const imageSrc = r.track.album.images[0]?.url || undefined;
       tracks.push({
+        uri: r.track.uri,
         href: r.track.external_urls.spotify,
         name: r.track.name,
         artist: r.track.artists[0]?.name ?? 'unknown',
@@ -118,6 +120,27 @@ const getPlaylistTracks = async (id: string): Promise<Track[]> => {
   return allTracks;
 };
 
+const createPlaylist = async (name: string, uris: string[]) => {
+  const uriChunks = chunkUneven(uris, 100);
+
+  const userId = userProfile.value?.id;
+  if (!userId) {
+    throw 'Cannot find your user id';
+  }
+
+  const request = {
+    name,
+    description: 'Created by playmixer',
+    public: true,
+  };
+
+  const resp = await SDK.playlists.createPlaylist(userId, request);
+
+  for (const chunk of uriChunks) {
+    await SDK.playlists.addItemsToPlaylist(resp.id, chunk);
+  }
+};
+
 export const useSpotify = () => {
-  return { getMyPlaylists, getPlaylist, getPlaylistTracks };
+  return { getMyPlaylists, getPlaylist, getPlaylistTracks, createPlaylist };
 };

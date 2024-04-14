@@ -23,7 +23,7 @@
       v-else-if="stage === 'results'"
       :kept="results.map(r => r.kept).flat()"
       :removed="results.map(r => r.removed).flat()"
-      @reset="goToWelcome()"
+      @reset="goToConfig()"
       @keep-going="goToConfig"
     />
   </div>
@@ -43,7 +43,6 @@ const {
   goToPlay,
   nextRound,
   previousRound,
-  goToResults,
   roundIndex,
   maxRounds,
   currentRound,

@@ -23,7 +23,7 @@ const isTrackLoading = (previewUrl: string) => {
 
 export const useShrinker = () => {
   const roundIndex = ref<number>(0);
-  const stage = ref<ShrinkerStage>('config');
+  const stage = ref<ShrinkerStage>('welcome');
   const previewDuration = ref(DEFAULT_PREVIEW_DURATION);
   const results = ref<ShrinkerRoundResult[]>([]);
   const rounds = ref<ShrinkerRound[]>([]);
@@ -37,6 +37,7 @@ export const useShrinker = () => {
 
     const tracks: ShrinkerActiveTrack[] = cr.tracks.map(t => {
       return {
+        uri: t.uri,
         href: t.href,
         name: t.name,
         artist: t.artist,

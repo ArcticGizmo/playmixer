@@ -41,9 +41,8 @@
         :key="index"
         :aspect-ratio="aspectRatio"
       >
-        <CenteredDiv>
+        <CenteredDiv v-if="track.show.value">
           <SpotifyTrack
-            v-show="track.show.value"
             class="track"
             :track-name="track.name"
             :artwork-src="track.imageSrc"
@@ -152,12 +151,12 @@ const onSelect = (index: number) => {
 
 .track {
   height: 100%;
-  width: 100%;
-  animation: animationFlipInX, animationFloat;
+  width: 90%;
+  animation: animateJackInTheBox, animationFloat;
   animation-duration: 0.75s, 10s;
   animation-iteration-count: 1, infinite;
   animation-delay: 0s, 0.75s;
-  animation-timing-function: linear, linear;
+  animation-timing-function: ease-out, linear;
 }
 
 .keep-btn {

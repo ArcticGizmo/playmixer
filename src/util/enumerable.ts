@@ -9,3 +9,13 @@ export const chunk = <T>(arr: T[], size: number) => {
 
   return chunks;
 };
+
+export const chunkUneven = <T>(arr: T[], maxSize: number) => {
+  const chunks: T[][] = [];
+  for (let i = 0; i < arr.length; i += maxSize) {
+    const c = arr.slice(i, i + maxSize);
+    chunks.push(c);
+  }
+
+  return chunks;
+};

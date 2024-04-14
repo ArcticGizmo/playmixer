@@ -92,7 +92,7 @@
           :max="maxRounds"
           :step="1"
           thumb-label="always"
-          :disabled="!trackCount"
+          :disabled="!maxRounds"
         />
 
         <!-- preview time -- radio -->
@@ -108,7 +108,7 @@
       <div class="actions d-flex">
         <v-btn color="primary" @click="onBack()">Back</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" :disabled="!trackCount" @click="onSubmit()">Next</v-btn>
+        <v-btn color="primary" :disabled="!maxRounds" @click="onSubmit()">Next</v-btn>
       </div>
     </v-card>
   </v-container>
@@ -162,7 +162,7 @@ const trackCount = computed(() => {
   );
 });
 const maxRounds = computed(() => {
-  return trackCount.value / form.value.tracksPerRound;
+  return Math.floor(trackCount.value / form.value.tracksPerRound);
 });
 
 onMounted(async () => {

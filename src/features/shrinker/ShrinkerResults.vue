@@ -40,6 +40,7 @@
           >
             Keep Cutting
           </v-btn>
+
           <v-btn color="secondary" @click="onSavePlaylist(props.kept)">Save Playlist</v-btn>
         </div>
 
@@ -71,6 +72,8 @@
 import CenteredDiv from '@/components/CenteredDiv.vue';
 import InfiniteScroller from '@/components/InfiniteScroller.vue';
 import SpotifyTrackTile from '@/components/SpotifyTrackTile.vue';
+import { useModalController } from '@/modals';
+import SavePlaylistModal from '@/modals/SavePlaylistModal.vue';
 import { Track } from '@/types/spotify.types';
 
 const props = defineProps<{
@@ -82,6 +85,8 @@ const emits = defineEmits<{
   (e: 'keep-going', payload: Track[]): void;
   (e: 'reset'): void;
 }>();
+
+const modalController = useModalController();
 
 const backgroundItems = [
   {
@@ -100,8 +105,12 @@ const onKeepGoing = (tracks: Track[]) => {
   emits('keep-going', tracks);
 };
 
-const onSavePlaylist = (tracks: Track[]) => {
-  console.log('---- save');
+const onSavePlaylist = async (tracks: Track[]) => {
+  await modalController.show({
+    component: SavePlaylistModal,
+    options: { maxWidth: '500px' },
+    props: { tracks },
+  });
 };
 </script>
 

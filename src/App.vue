@@ -29,6 +29,11 @@ const onShowErrors = async () => {
 </script>
 
 <style scoped>
+.v-application {
+  background: rgb(203, 211, 255);
+  background: radial-gradient(circle, rgba(203, 211, 255, 1) 0%, rgba(195, 255, 245, 1) 100%);
+}
+
 .error-modal {
   position: fixed;
   bottom: 1rem;

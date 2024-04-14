@@ -43,7 +43,7 @@ const allowAnimation = ref(false);
 
 const scrollerRef = ref<HTMLDivElement>();
 
-function addAnimation() {
+const addAnimation = () => {
   allowAnimation.value = true;
   const scroller = scrollerRef.value!;
 
@@ -59,13 +59,10 @@ function addAnimation() {
     duplicatedItem.setAttribute('aria-hidden', 'true');
     scrollerInner.appendChild(duplicatedItem);
   });
-}
+};
 
 onMounted(() => {
-  // If a user hasn't opted in for recuded motion, then we add the animation
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    addAnimation();
-  }
+  addAnimation();
 });
 </script>
 

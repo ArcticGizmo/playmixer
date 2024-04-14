@@ -23,7 +23,7 @@
       v-else-if="stage === 'results'"
       :kept="results.map(r => r.kept).flat()"
       :removed="results.map(r => r.removed).flat()"
-      @reset="goToConfig()"
+      @reset="onReset()"
       @keep-going="goToConfig"
     />
   </div>
@@ -35,6 +35,7 @@ import ShrinkerConfig from './ShrinkerConfig.vue';
 import ShrinkerPlay from './ShrinkerPlay.vue';
 import ShrinkerResults from './ShrinkerResults.vue';
 import { useShrinker } from './useShrinker';
+import { AudioManager } from '@/composables/audio';
 
 const {
   stage,
@@ -52,4 +53,9 @@ const {
   results,
   previousTracks,
 } = useShrinker();
+
+const onReset = () => {
+  AudioManager.unload();
+  goToConfig();
+};
 </script>

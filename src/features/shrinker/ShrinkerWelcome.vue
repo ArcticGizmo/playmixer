@@ -4,9 +4,13 @@
       <div class="text-h4">Lets get cutting!</div>
       <div v-for="(text, index) of lines" class="text-body mt-4" :key="index">{{ text }}</div>
 
-      <v-btn class="float-right mt-10" color="primary" @click="emits('next')">
-        Get Started <v-icon>mdi-arrow-right</v-icon>
-      </v-btn>
+      <div class="d-flex mt-10">
+        <v-btn color="error" :to="{ name: 'home' }">Home</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn class="float-right" color="primary" @click="emits('next')">
+          Get Started <v-icon>mdi-arrow-right</v-icon>
+        </v-btn>
+      </div>
     </v-card>
   </v-container>
 </template>

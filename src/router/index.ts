@@ -10,13 +10,9 @@ import { useRouteGuard } from '@/composables/authGuard';
 import PlaylistShrinkerPage from '@/pages/PlaylistShrinkerPage.vue';
 
 export const routes: RouteRecordRaw[] = [
-  // {
-  //   path: '/',
-  //   redirect: '/login',
-  // },
   {
     path: '/',
-    redirect: '/playlist-shrinker',
+    redirect: '/login',
   },
   {
     path: '/home',

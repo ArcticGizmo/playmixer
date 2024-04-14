@@ -95,7 +95,7 @@
           :disabled="!maxRounds"
         />
 
-        <!-- preview time -- radio -->
+        <!-- preview time -->
         <v-slider
           v-model="form.previewLimit"
           label="Preview Length (sec)"

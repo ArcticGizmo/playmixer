@@ -29,6 +29,7 @@ export const useShrinker = () => {
   const rounds = ref<ShrinkerRound[]>([]);
   const maxRounds = computed(() => rounds.value.length);
   const isStarted = ref(false);
+  const previousTracks = ref<Track[]>([]);
 
   // const currentRound = computed(() => rounds.value[roundIndex.value]);
   const currentRound = computed<ShrinkerActiveRound>(() => {
@@ -70,6 +71,7 @@ export const useShrinker = () => {
     rounds.value = [];
     results.value = [];
     isStarted.value = false;
+    previousTracks.value = [];
   };
 
   const goToWelcome = () => {
@@ -77,8 +79,9 @@ export const useShrinker = () => {
     reset();
   };
 
-  const goToConfig = () => {
+  const goToConfig = (tracks?: Track[]) => {
     stage.value = 'config';
+    previousTracks.value = tracks || [];
   };
 
   const goToPlay = async (config: PlayConfig) => {
@@ -141,6 +144,7 @@ export const useShrinker = () => {
     nextRound,
     previousRound,
     start,
+    previousTracks,
     isStarted: readonly(isStarted),
   };
 };

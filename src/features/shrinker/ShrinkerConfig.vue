@@ -2,6 +2,30 @@
   <v-container class="shrinker-config pt-10">
     <v-card class="pa-10">
       <form @submit.prevent="onSubmit">
+        <template v-if="hasPreviousTracks">
+          <h4>You brought {{ previousTracks.length }} to go around again!</h4>
+          <InfiniteScroller duration="80s">
+            <SpotifyTrackTile
+              v-for="(track, index) of previousTracks"
+              :key="index"
+              :track-name="track.name"
+              :artwork-src="track.imageSrc"
+              :artist="track.artist"
+            >
+              <v-btn
+                class="spotify-btn pa-2"
+                icon
+                size="small"
+                variant="text"
+                :href="track.href"
+                target="_blank"
+              >
+                <img src="/spotify.svg" height="100%" width="100%" />
+              </v-btn>
+            </SpotifyTrackTile>
+          </InfiniteScroller>
+        </template>
+
         <h4>Pick your playlists</h4>
         <v-autocomplete
           label="Playlist"
@@ -57,7 +81,7 @@
           :max="4"
           :step="1"
           thumb-label="always"
-          :disabled="!hasPlaylists"
+          :disabled="!trackCount"
         />
 
         <!-- Rounds -->
@@ -68,7 +92,7 @@
           :max="maxRounds"
           :step="1"
           thumb-label="always"
-          :disabled="!hasPlaylists"
+          :disabled="!trackCount"
         />
 
         <!-- preview time -- radio -->
@@ -84,7 +108,7 @@
       <div class="actions d-flex">
         <v-btn color="primary" @click="onBack()">Back</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" :disabled="!hasPlaylists" @click="onSubmit()">Next</v-btn>
+        <v-btn color="primary" :disabled="!trackCount" @click="onSubmit()">Next</v-btn>
       </div>
     </v-card>
   </v-container>
@@ -95,10 +119,11 @@ import { useSpotify } from '@/composables/spotify';
 import { onMounted, ref } from 'vue';
 import { useToast } from 'vue-toast-notification';
 import { computed } from 'vue';
-import { Playlist } from '@/types/spotify.types';
+import { Playlist, Track } from '@/types/spotify.types';
 import { PlayConfig, ShrinkerRound } from './shrinker.types';
 import { shuffleInPlace } from '@/util/shuffle';
 import { chunk } from '@/util/enumerable';
+import SpotifyTrackTile from '@/components/SpotifyTrackTile.vue';
 
 interface Form {
   playlists: Playlist[];
@@ -106,6 +131,10 @@ interface Form {
   tracksPerRound: number;
   maxRounds: number;
 }
+
+const props = defineProps<{
+  previousTracks: Track[];
+}>();
 
 const emits = defineEmits<{
   (e: 'next', config: PlayConfig): void;
@@ -116,6 +145,7 @@ const spotify = useSpotify();
 const toast = useToast({ position: 'top' });
 const playlistUrl = ref('');
 const autocompleteValue = ref<Playlist>();
+const hasPreviousTracks = computed(() => props.previousTracks.length > 0);
 
 const form = ref<Form>({
   playlists: [],
@@ -126,10 +156,14 @@ const form = ref<Form>({
 
 const isLoading = ref(true);
 const playlists = ref<Playlist[]>([]);
-const maxRounds = computed(() => {
-  return form.value.playlists.reduce((acc, p) => acc + p.trackCount, 0) / form.value.tracksPerRound;
+const trackCount = computed(() => {
+  return (
+    props.previousTracks.length + form.value.playlists.reduce((acc, p) => acc + p.trackCount, 0)
+  );
 });
-const hasPlaylists = computed(() => form.value.playlists.length > 0);
+const maxRounds = computed(() => {
+  return trackCount.value / form.value.tracksPerRound;
+});
 
 onMounted(async () => {
   playlists.value = await spotify.getMyPlaylists();
@@ -155,6 +189,7 @@ const onSubmit = async () => {
     const allTracks = (
       await Promise.all(form.value.playlists.map(p => spotify.getPlaylistTracks(p.id)))
     ).flat();
+    allTracks.push(...props.previousTracks);
     shuffleInPlace(allTracks);
 
     const tracksPerRound = form.value.tracksPerRound;
@@ -219,5 +254,11 @@ const onLoadShareLink = async () => {
 
 :deep(.v-input__prepend) {
   min-width: 11rem;
+}
+
+.spotify-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>

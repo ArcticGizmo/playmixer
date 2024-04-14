@@ -32,7 +32,12 @@
         <div class="text-h5">Whats next?</div>
         <div class="options mt-10">
           <div>Kept</div>
-          <v-btn color="primary" variant="elevated" @click="onKeepGoing(props.kept)">
+          <v-btn
+            color="primary"
+            variant="elevated"
+            :disabled="props.kept.length < 4"
+            @click="onKeepGoing(props.kept)"
+          >
             Keep Cutting
           </v-btn>
           <v-btn color="secondary" @click="onSavePlaylist(props.kept)">Save Playlist</v-btn>
@@ -40,7 +45,12 @@
 
         <div class="options mt-4">
           <div>Removed</div>
-          <v-btn color="primary" variant="elevated" @click="onKeepGoing(props.removed)">
+          <v-btn
+            color="primary"
+            variant="elevated"
+            :disabled="props.kept.length < 4"
+            @click="onKeepGoing(props.removed)"
+          >
             Keep Cutting
           </v-btn>
           <v-btn color="secondary" @click="onSavePlaylist(props.removed)">Save Playlist</v-btn>

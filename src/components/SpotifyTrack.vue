@@ -5,7 +5,9 @@
         <div class="top">
           <DivOverlay :show="noPreview">
             <v-img :src="artworkSrc" aspect-ratio="1" />
-            <template #overlay> <span class="no-preview">No Preview</span> </template>
+            <template #overlay>
+              <v-icon size="x-large">mdi-music-off</v-icon>
+            </template>
           </DivOverlay>
           <div class="pl-4">
             <div class="text-h6">{{ trackName }}</div>
@@ -19,7 +21,9 @@
       <template v-else>
         <DivOverlay :show="noPreview">
           <v-img :src="artworkSrc" aspect-ratio="1" />
-          <template #overlay> <span class="no-preview">No Preview</span> </template>
+          <template #overlay>
+            <v-icon size="x-large">mdi-music-off</v-icon>
+          </template>
         </DivOverlay>
         <div class="mt-2">
           <div class="text-h6">{{ trackName }}</div>

@@ -56,7 +56,7 @@
             :artwork-src="track.imageSrc"
             :artist="track.artist"
             :horizontal="!horizontal"
-            :loading="!!track.previewUrl && !loadedTrackSrcs.includes(track.previewUrl)"
+            :loading="track.loading.value"
             :no-preview="!track.previewUrl"
           >
             <div class="d-flex">
@@ -101,7 +101,6 @@ import { Track } from '@/types/spotify.types';
 import StartOverlay from '@/components/StartOverlay.vue';
 import { useModalController } from '@/modals';
 import MusicLoadingModal from '@/modals/MusicLoadingModal.vue';
-import { AudioManager } from '@/composables/audio';
 
 const props = defineProps<{
   isStarted: boolean;
@@ -126,10 +125,6 @@ const horizontal = computed(() => width.value > height.value);
 
 const aspectRatio = computed(() => (horizontal.value ? '0.75' : '3'));
 
-const loadedTrackSrcs = computed(() => {
-  return AudioManager.records.value.filter(r => r.state === 'loaded').map(r => r.src);
-});
-
 const onSelect = (index: number) => {
   const kept: Track[] = [];
   const removed: Track[] = [];
@@ -146,8 +141,10 @@ const onSelect = (index: number) => {
 };
 
 const onShowLoading = async () => {
+  const highlightSrcs = props.round.tracks.map(t => t.previewUrl).filter(p => !!p) as string[];
   await modalController.show({
     component: MusicLoadingModal,
+    props: { highlightSrcs },
     options: { maxWidth: '80vw' },
   });
 };

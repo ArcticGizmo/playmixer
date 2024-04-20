@@ -40,7 +40,6 @@ export class PreloadedAudio {
   public state = readonly(this.internalState);
 
   constructor(src: string, opts?: AudioOptions) {
-    this.internalState.value = 'loading';
     this._src = src;
     this._name = opts?.name;
 
@@ -50,7 +49,7 @@ export class PreloadedAudio {
       format: 'mp3',
       loop: false,
       autoplay: false,
-      preload: true,
+      preload: false,
       html5: true,
       onload: () => (this.internalState.value = 'loaded'),
       onplay: () => {
@@ -107,6 +106,11 @@ export class PreloadedAudio {
     this.prom = DeferredPromise();
   }
 
+  load() {
+    this.sound.load();
+    (this.internalState as any) = 'loading';
+  }
+
   unload() {
     (this.internalState as any) = 'unloaded';
     this.sound.unload();
@@ -158,20 +162,33 @@ class PreloadedAudioManager {
   stop() {
     this.current?.stop();
     this.current = undefined;
+    return this;
   }
 
   reload(src: string) {
     const audio = this.lookup.value[src];
     if (!audio) {
-      return;
+      return this;
     }
 
     audio.reload();
+    return this;
+  }
+
+  load(src: string) {
+    const audio = this.lookup.value[src];
+    if (!audio) {
+      return;
+    }
+
+    audio.load();
+    return this;
   }
 
   unload() {
     this.stop();
     Object.values(this.lookup.value).forEach(a => a.unload());
+    return this;
   }
 }
 

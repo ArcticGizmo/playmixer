@@ -56,6 +56,8 @@
             :artwork-src="track.imageSrc"
             :artist="track.artist"
             :horizontal="!horizontal"
+            :loading="!!track.previewUrl && !loadedTrackSrcs.includes(track.previewUrl)"
+            :no-preview="!track.previewUrl"
           >
             <div class="d-flex">
               <v-tooltip location="top">
@@ -70,10 +72,9 @@
               <v-tooltip location="top">
                 <template #activator="{ props: p }">
                   <v-btn
-                    v-show="round.done.value"
                     v-bind="p"
-                    class="keep-btn"
                     :class="{ 'keep-btn': round.done.value }"
+                    :variant="round.done.value ? undefined : 'tonal'"
                     icon="mdi-heart"
                     size="small"
                     @click="onSelect(index)"
@@ -100,6 +101,7 @@ import { Track } from '@/types/spotify.types';
 import StartOverlay from '@/components/StartOverlay.vue';
 import { useModalController } from '@/modals';
 import MusicLoadingModal from '@/modals/MusicLoadingModal.vue';
+import { AudioManager } from '@/composables/audio';
 
 const props = defineProps<{
   isStarted: boolean;
@@ -122,8 +124,10 @@ const modalController = useModalController();
 const { width, height } = useWindowSize();
 const horizontal = computed(() => width.value > height.value);
 
-const aspectRatio = computed(() => {
-  return horizontal.value ? '0.75' : '3';
+const aspectRatio = computed(() => (horizontal.value ? '0.75' : '3'));
+
+const loadedTrackSrcs = computed(() => {
+  return AudioManager.records.value.filter(r => r.state === 'loaded').map(r => r.src);
 });
 
 const onSelect = (index: number) => {

@@ -15,6 +15,7 @@
       :preview-duration="previewDuration"
       :round="currentRound"
       @select="e => nextRound(e.kept, e.removed)"
+      @replay="goToConfig()"
       @back="previousRound()"
       @next="nextRound([], [])"
       @start="start()"

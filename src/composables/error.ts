@@ -28,7 +28,11 @@ window.addEventListener('error', event => {
 });
 
 window.addEventListener('unhandledrejection', event => {
-  add({ at: new Date(), message: event.reason.message, subtitle: event.reason.stack });
+  add({
+    at: new Date(),
+    message: event.reason.message || event.reason,
+    subtitle: event.reason.stack || event.type,
+  });
 });
 
 export const useErrorCollector = () => {

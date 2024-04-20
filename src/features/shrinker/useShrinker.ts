@@ -1,4 +1,4 @@
-import { computed, readonly, ref } from 'vue';
+import { computed, readonly, ref, watch } from 'vue';
 import {
   PlayConfig,
   ShrinkerActiveRound,
@@ -32,6 +32,9 @@ export const useShrinker = () => {
   const maxRounds = computed(() => rounds.value.length);
   const isStarted = ref(false);
   const previousTracks = ref<Track[]>([]);
+
+  // Make sure we don't stack tracks
+  watch(stage, () => AudioManager.stop());
 
   // const currentRound = computed(() => rounds.value[roundIndex.value]);
   const currentRound = computed<ShrinkerActiveRound>(() => {
@@ -99,13 +102,16 @@ export const useShrinker = () => {
   };
 
   const start = () => {
-    // preload all tracks
-    const alltracks = rounds.value
+    // preload tracks
+    const allTracks = rounds.value
       .map(r => r.tracks)
       .flat()
-      .map(t => t.previewUrl)
-      .filter(p => !!p) as string[];
-    AudioManager.add(alltracks, previewDuration.value);
+      .filter(t => !!t.previewUrl);
+
+    for (const track of allTracks) {
+      AudioManager.add(track.previewUrl!, { name: track.name, maxDuration: previewDuration.value });
+    }
+
     isStarted.value = true;
     play();
   };

@@ -1,7 +1,11 @@
 <template>
   <ModalLayout title="Music Pre-loader">
     <v-list lines="three">
-      <v-list-item v-for="(item, index) of items" :key="index">
+      <v-list-item
+        v-for="(item, index) of items"
+        :key="index"
+        :active="highlightSrcs?.includes(item.src)"
+      >
         <template #prepend>
           <v-progress-circular v-if="item.icon.icon === 'loading'" class="loading" indeterminate />
           <v-icon v-else class="pl-7" :icon="item.icon.icon" :color="item.icon.color" />
@@ -38,6 +42,10 @@ const ICONS: Record<AudioState, { icon: string; color?: string }> = {
   loaded: { icon: 'mdi-check', color: 'green' },
   errored: { icon: 'mdi-alert-circle-outline', color: 'red' },
 };
+
+defineProps<{
+  highlightSrcs?: string[];
+}>();
 
 const items = computed(() => {
   return AudioManager.records.value.map(r => {

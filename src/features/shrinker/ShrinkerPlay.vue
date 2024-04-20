@@ -146,8 +146,10 @@ const onSelect = (index: number) => {
 };
 
 const onShowLoading = async () => {
+  const highlightSrcs = props.round.tracks.map(t => t.previewUrl).filter(p => !!p) as string[];
   await modalController.show({
     component: MusicLoadingModal,
+    props: { highlightSrcs },
     options: { maxWidth: '80vw' },
   });
 };

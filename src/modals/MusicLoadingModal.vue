@@ -35,6 +35,7 @@ import { AudioManager } from '@/composables/audio';
 import type { AudioState } from '@/composables/audio';
 import ModalLayout from './ModalLayout.vue';
 import { computed } from 'vue';
+import { firstBy } from 'thenby';
 
 const ICONS: Record<AudioState, { icon: string; color?: string }> = {
   unloaded: { icon: 'mdi-crosshairs-question' },
@@ -43,12 +44,12 @@ const ICONS: Record<AudioState, { icon: string; color?: string }> = {
   errored: { icon: 'mdi-alert-circle-outline', color: 'red' },
 };
 
-defineProps<{
+const props = defineProps<{
   highlightSrcs?: string[];
 }>();
 
 const items = computed(() => {
-  return AudioManager.records.value.map(r => {
+  const items = AudioManager.records.value.map(r => {
     const icon = ICONS[r.state];
 
     return {
@@ -59,6 +60,10 @@ const items = computed(() => {
       error: r.error,
     };
   });
+
+  const highlightSrcs = props.highlightSrcs || [];
+  items.sort(firstBy(x => highlightSrcs.includes(x.src), 'desc'));
+  return items;
 });
 
 const onReload = (src: string) => {

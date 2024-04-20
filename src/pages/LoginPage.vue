@@ -5,19 +5,11 @@
       <div class="content">
         <p>I hope this makes it easier to crop your huge playlists into much smaller pieces!</p>
         <p>
-          This does mean upon logging in, you will be requested to consent to this application
-          <strong>creating playlists on your behalf</strong>.
-        </p>
-        <p>
           Playlists will only be created if you choose to do so, and this consent can be revoked at
           any time from your
           <a aria-label="View spotify account" href="https://www.spotify.com/account/apps/">
             spotify account
           </a>
-        </p>
-        <p>
-          If you do have a good time with the application, please let me know
-          <a href="mailto:jon.howell314@gmail.com">via email</a>!
         </p>
       </div>
 

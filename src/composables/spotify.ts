@@ -2,6 +2,9 @@ import { Playlist, Track } from '@/types/spotify.types';
 import { chunkUneven } from '@/util/enumerable';
 import { SpotifyApi, UserProfile } from '@spotify/web-api-ts-sdk';
 import { readonly, ref } from 'vue';
+import { useToast } from 'vue-toast-notification';
+
+const toast = useToast();
 
 const SCOPES: string[] = ['playlist-modify-public'];
 
@@ -23,15 +26,24 @@ const login = async () => {
   const resp = await SDK.authenticate();
   if (!resp?.authenticated) {
     console.log('[spotify] not authenticated, redirecting...');
-    return;
   }
 };
 
 const checkSession = async () => {
   const token = await SDK.getAccessToken();
   if (token) {
-    isAuthenticated.value = true;
-    userProfile.value = await SDK.currentUser.profile();
+    try {
+      userProfile.value = await SDK.currentUser.profile();
+      isAuthenticated.value = true;
+    } catch (error: any) {
+      const msg: string = error.message || 'unknown error';
+      console.error('Failed to fetch profile', msg);
+
+      if (msg.includes('User not registered in the Developer Dashboard')) {
+        toast.error('You need to be invited before using this application', { duration: 5_000 });
+        return;
+      }
+    }
   }
 };
 
@@ -39,6 +51,7 @@ const logout = () => {
   SDK.logOut();
   userProfile.value = undefined;
   isAuthenticated.value = false;
+  console.log('[spotify] logged out');
 };
 
 const handleRedirect = async () => {

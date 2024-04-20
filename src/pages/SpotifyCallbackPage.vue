@@ -1,6 +1,9 @@
-<template>Loading ...</template>
+<template>
+  <BaseFullScreenPage> loading ... </BaseFullScreenPage>
+</template>
 
 <script setup lang="ts">
+import BaseFullScreenPage from './BaseFullScreenPage.vue';
 import { useSpotifyAuth } from '@/composables/spotify';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';

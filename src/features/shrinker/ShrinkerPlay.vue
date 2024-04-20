@@ -56,6 +56,7 @@
             :artwork-src="track.imageSrc"
             :artist="track.artist"
             :horizontal="!horizontal"
+            :loading="!loadedTrackSrcs.includes(track.previewUrl!)"
           >
             <div class="d-flex">
               <v-tooltip location="top">
@@ -99,6 +100,8 @@ import { Track } from '@/types/spotify.types';
 import StartOverlay from '@/components/StartOverlay.vue';
 import { useModalController } from '@/modals';
 import MusicLoadingModal from '@/modals/MusicLoadingModal.vue';
+import { AudioManager } from '@/composables/audio';
+import { ref } from 'vue';
 
 const props = defineProps<{
   isStarted: boolean;
@@ -121,9 +124,11 @@ const modalController = useModalController();
 const { width, height } = useWindowSize();
 const horizontal = computed(() => width.value > height.value);
 
-const aspectRatio = computed(() => {
-  return horizontal.value ? '0.75' : '3';
-});
+const aspectRatio = computed(() => (horizontal.value ? '0.75' : '3'));
+
+const loadedTrackSrcs = computed(() => {
+  return AudioManager.records.value.filter(r => r.state === 'loaded').map(r => r.src);
+})
 
 const onSelect = (index: number) => {
   const kept: Track[] = [];

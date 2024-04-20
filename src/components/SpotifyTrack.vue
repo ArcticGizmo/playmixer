@@ -1,6 +1,6 @@
 <template>
   <div class="spotify-track pa-4">
-    <div class="content">
+    <DivOverlay class="content" :show="loading">
       <template v-if="horizontal">
         <div class="top">
           <v-img :src="artworkSrc" aspect-ratio="1" />
@@ -21,16 +21,18 @@
           <slot></slot>
         </div>
       </template>
-    </div>
+    </DivOverlay>
   </div>
 </template>
 
 <script setup lang="ts">
+import DivOverlay from './DivOverlay.vue';
 defineProps<{
   artworkSrc?: string;
   trackName: string;
   artist?: string;
   horizontal?: boolean;
+  loading?: boolean;
 }>();
 </script>
 

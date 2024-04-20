@@ -18,8 +18,19 @@ const delay = (wait: number) => new Promise(r => setTimeout(r, wait));
 const isTrackLoading = (previewUrl: string) => {
   return computed(() => {
     const state = AudioManager.state(previewUrl) as any as string;
-    return state !== 'loaded';
+    return previewUrl && state !== 'loaded';
   });
+};
+
+const preloadRound = (round?: ShrinkerRound) => {
+  if (!round) {
+    return;
+  }
+
+  const srcs = round.tracks.map(t => t.previewUrl).filter(p => !!p) as string[];
+  for (const src of srcs) {
+    AudioManager.load(src);
+  }
 };
 
 export const useShrinker = () => {
@@ -60,6 +71,9 @@ export const useShrinker = () => {
   });
 
   const play = async () => {
+    // preload the next round
+    preloadRound(rounds.value[roundIndex.value + 1]);
+
     AudioManager.stop();
 
     await delay(100);
@@ -102,7 +116,7 @@ export const useShrinker = () => {
   };
 
   const start = () => {
-    // preload tracks
+    // Add all the tracks
     const allTracks = rounds.value
       .map(r => r.tracks)
       .flat()
@@ -111,6 +125,9 @@ export const useShrinker = () => {
     for (const track of allTracks) {
       AudioManager.add(track.previewUrl!, { name: track.name, maxDuration: previewDuration.value });
     }
+
+    // preload the first round
+    preloadRound(rounds.value[0]);
 
     isStarted.value = true;
     play();

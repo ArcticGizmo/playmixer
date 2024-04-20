@@ -31,38 +31,38 @@
       <v-card class="px-10 py-6" max-width="600px">
         <h2 class="text-center mb-6">Whats next?</h2>
         <div class="options-layout text-center">
-          <div>
+          <div v-if="kept.length">
             <h3>Kept</h3>
             <v-btn
+              v-if="kept.length >= 4"
               color="primary"
               variant="elevated"
-              :disabled="props.kept.length < 4"
-              @click="onKeepGoing(props.kept)"
+              @click="onKeepGoing(kept)"
             >
               Keep Cutting
             </v-btn>
-            <v-btn color="secondary" @click="onSavePlaylist(props.kept)">Save Playlist</v-btn>
+            <v-btn color="secondary" @click="onSavePlaylist(kept)"> Save Playlist </v-btn>
           </div>
-          <div>
+          <div v-if="removed.length">
             <h3>Removed</h3>
             <v-btn
+              v-if="removed.length >= 4"
               color="primary"
               variant="elevated"
-              :disabled="props.kept.length < 4"
-              @click="onKeepGoing(props.removed)"
+              @click="onKeepGoing(removed)"
             >
               Keep Cutting
             </v-btn>
-            <v-btn color="secondary" @click="onSavePlaylist(props.removed)">Save Playlist</v-btn>
+            <v-btn color="secondary" @click="onSavePlaylist(removed)"> Save Playlist </v-btn>
           </div>
         </div>
 
         <v-btn class="mt-10 w-100" color="primary" variant="elevated" @click="emits('reset')">
           Again!
         </v-btn>
-        <v-btn class="mt-3 w-100" color="error" variant="elevated" :to="{ name: 'home' }"
-          >Home</v-btn
-        >
+        <v-btn class="mt-3 w-100" color="error" variant="elevated" :to="{ name: 'home' }">
+          Home
+        </v-btn>
       </v-card>
     </CenteredDiv>
   </div>

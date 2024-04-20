@@ -9,12 +9,20 @@ export interface AudioRecord {
   name?: string;
   src: string;
   state: AudioState;
+  error?: any;
 }
 
 export interface AudioOptions {
   maxDuration?: number;
   name?: string;
 }
+
+const HOWLER_ERRORS: Record<any, string | undefined> = {
+  1: 'Aborted by user',
+  2: 'Network Error',
+  3: 'Decoding Error',
+  4: 'Not found',
+};
 
 Howler.autoUnlock = true;
 Howler.html5PoolSize = 200;
@@ -27,6 +35,7 @@ export class PreloadedAudio {
   private internalState = ref<AudioState>('unloaded');
   private _src = '';
   private _name?: string;
+  private _error?: any;
 
   public state = readonly(this.internalState);
 
@@ -54,6 +63,8 @@ export class PreloadedAudio {
       },
       onend: () => res(),
       onloaderror: (_id, error) => {
+        error = HOWLER_ERRORS[error as any] || error;
+        this._error = error;
         console.error('[Audio] load error', error);
         this.internalState.value = 'errored';
         toast.error(`Error loading preview - ${error || 'unknown'}`, { duration: 5000 });
@@ -81,6 +92,10 @@ export class PreloadedAudio {
     return this._name;
   }
 
+  get error() {
+    return this._error;
+  }
+
   play() {
     this.stop();
     this.sound.play();
@@ -98,7 +113,7 @@ export class PreloadedAudio {
   }
 
   reload() {
-    (this.internalState as any) = 'unloaded';
+    (this.internalState as any) = 'loading';
     this.sound.load();
   }
 }
@@ -113,6 +128,7 @@ class PreloadedAudioManager {
         name: a.name,
         src: a.src,
         state: a.state,
+        error: a.error,
       });
     });
   });

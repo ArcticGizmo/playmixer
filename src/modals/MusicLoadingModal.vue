@@ -18,6 +18,9 @@
         </template>
         <v-list-item-title>{{ item.name || '--No Name--' }}</v-list-item-title>
         <v-list-item-subtitle style="word-break: break-all">{{ item.src }}</v-list-item-subtitle>
+        <v-list-item-subtitle v-if="item.error" class="mt-4">
+          Error: {{ item.error }}
+        </v-list-item-subtitle>
       </v-list-item>
     </v-list>
   </ModalLayout>
@@ -30,7 +33,7 @@ import ModalLayout from './ModalLayout.vue';
 import { computed } from 'vue';
 
 const ICONS: Record<AudioState, { icon: string; color?: string }> = {
-  unloaded: { icon: 'mdi-hand-back-left-outline' },
+  unloaded: { icon: 'mdi-crosshairs-question' },
   loading: { icon: 'loading' },
   loaded: { icon: 'mdi-check', color: 'green' },
   errored: { icon: 'mdi-alert-circle-outline', color: 'red' },
@@ -45,6 +48,7 @@ const items = computed(() => {
       src: r.src,
       state: r.state,
       icon,
+      error: r.error,
     };
   });
 });

@@ -73,6 +73,9 @@
         <h4>Configuration</h4>
         <br />
 
+        <!-- variance -->
+        <v-switch label="Add related tracks" v-model="form.useRecommendations" color="primary" />
+
         <!-- Team Count -->
         <v-label>Tracks per round ({{ form.tracksPerRound }})</v-label>
         <v-slider
@@ -125,6 +128,7 @@ interface Form {
   previewLimit: number;
   tracksPerRound: number;
   maxRounds: number;
+  useRecommendations: boolean;
 }
 
 const props = defineProps<{
@@ -147,6 +151,7 @@ const form = ref<Form>({
   previewLimit: 7,
   tracksPerRound: 2,
   maxRounds: 10,
+  useRecommendations: false,
 });
 
 const isLoading = ref(true);
@@ -180,12 +185,33 @@ const onSubmit = async () => {
   isLoading.value = true;
 
   try {
-    // Fetch everything and shuffle (because there is no built in shuffle)
-    const allTracks = (
-      await Promise.all(form.value.playlists.map(p => spotify.getPlaylistTracks(p.id)))
-    ).flat();
-    allTracks.push(...props.previousTracks);
+    submit();
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const submit = async () => {
+  try {
+    // fetch tracks
+    const allTracks = await fetchTracks();
     shuffleInPlace(allTracks);
+
+    // if recommendations allowed, add those
+    if (form.value.useRecommendations) {
+      const trackIds = allTracks.map(t => t.id).slice(0, 5);
+      const variableTracks = await spotify.getRecommendations(trackIds, trackIds.length);
+      allTracks.push(...variableTracks);
+    }
+
+    // shuffle the tracks
+    shuffleInPlace(allTracks);
+
+    // const allTracks = (
+    //   await Promise.all(form.value.playlists.map(p => spotify.getPlaylistTracks(p.id)))
+    // ).flat();
+    // allTracks.push(...props.previousTracks);
+    // shuffleInPlace(allTracks);
 
     const tracksPerRound = form.value.tracksPerRound;
 
@@ -204,10 +230,17 @@ const onSubmit = async () => {
       console.dir(payload);
     }
 
-    emits('next', payload);
+    // emits('next', payload);
   } finally {
     isLoading.value = false;
   }
+};
+
+const fetchTracks = async () => {
+  const fetchers = form.value.playlists.map(p => spotify.getPlaylistTracks(p.id));
+  const allTracks = (await Promise.all(fetchers)).flat();
+  allTracks.push(...props.previousTracks);
+  return allTracks;
 };
 
 const onBack = () => {

@@ -53,9 +53,4 @@ const {
   results,
   previousTracks,
 } = useShrinker();
-
-const onReset = () => {
-  AudioManager.unload();
-  goToConfig();
-};
 </script>

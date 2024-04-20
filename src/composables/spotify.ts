@@ -1,6 +1,6 @@
 import { Playlist, Track } from '@/types/spotify.types';
 import { chunkUneven } from '@/util/enumerable';
-import { SpotifyApi, UserProfile } from '@spotify/web-api-ts-sdk';
+import { RecommendationsRequest, SpotifyApi, UserProfile } from '@spotify/web-api-ts-sdk';
 import { readonly, ref } from 'vue';
 import { useToast } from 'vue-toast-notification';
 
@@ -103,7 +103,7 @@ const getPlaylist = async (id: string): Promise<Playlist> => {
 const getPlaylistTracks = async (id: string): Promise<Track[]> => {
   const allTracks: Track[] = [];
 
-  const FIELDS = 'items.track(uri,name,external_urls,artists,preview_url,album.images)';
+  const FIELDS = 'items.track(id,uri,name,external_urls,artists,preview_url,album.images)';
   const LIMIT = 50;
   const MAX_LOOPS = 20;
 
@@ -114,6 +114,7 @@ const getPlaylistTracks = async (id: string): Promise<Track[]> => {
     for (const r of resp.items) {
       const imageSrc = r.track.album.images[0]?.url || undefined;
       tracks.push({
+        id: r.track.id,
         uri: r.track.uri,
         href: r.track.external_urls.spotify,
         name: r.track.name,
@@ -131,6 +132,29 @@ const getPlaylistTracks = async (id: string): Promise<Track[]> => {
   }
 
   return allTracks;
+};
+
+const getRecommendations = async (trackIds: string[], limit: number): Promise<Track[]> => {
+  if (limit < 1) limit = 1;
+  if (limit > 100) limit = 100;
+  
+  const payload: RecommendationsRequest = {
+    limit: 5,
+    seed_tracks: trackIds.slice(0, 5),
+  };
+  const resp = await SDK.recommendations.get(payload);
+  return resp.tracks.map(track => {
+    const imageSrc = track.album.images[0]?.url || undefined;
+    return {
+      id: track.id,
+      uri: track.uri,
+      href: track.external_urls.spotify,
+      name: track.name,
+      artist: track.artists[0]?.name ?? 'unknown',
+      imageSrc,
+      previewUrl: track.preview_url || undefined,
+    };
+  });
 };
 
 const createPlaylist = async (name: string, uris: string[]) => {
@@ -155,5 +179,5 @@ const createPlaylist = async (name: string, uris: string[]) => {
 };
 
 export const useSpotify = () => {
-  return { getMyPlaylists, getPlaylist, getPlaylistTracks, createPlaylist };
+  return { getMyPlaylists, getPlaylist, getPlaylistTracks, createPlaylist, getRecommendations };
 };

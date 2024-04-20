@@ -56,7 +56,8 @@
             :artwork-src="track.imageSrc"
             :artist="track.artist"
             :horizontal="!horizontal"
-            :loading="!loadedTrackSrcs.includes(track.previewUrl!)"
+            :loading="!!track.previewUrl && !loadedTrackSrcs.includes(track.previewUrl)"
+            :no-preview="!track.previewUrl"
           >
             <div class="d-flex">
               <v-tooltip location="top">
@@ -101,7 +102,6 @@ import StartOverlay from '@/components/StartOverlay.vue';
 import { useModalController } from '@/modals';
 import MusicLoadingModal from '@/modals/MusicLoadingModal.vue';
 import { AudioManager } from '@/composables/audio';
-import { ref } from 'vue';
 
 const props = defineProps<{
   isStarted: boolean;
@@ -128,7 +128,7 @@ const aspectRatio = computed(() => (horizontal.value ? '0.75' : '3'));
 
 const loadedTrackSrcs = computed(() => {
   return AudioManager.records.value.filter(r => r.state === 'loaded').map(r => r.src);
-})
+});
 
 const onSelect = (index: number) => {
   const kept: Track[] = [];

@@ -65,13 +65,13 @@ export class PreloadedAudio {
       onloaderror: (_id, error) => {
         error = HOWLER_ERRORS[error as any] || error;
         this._error = error;
-        console.error('[Audio] load error', error);
+        console.error('[Audio] load error | ', error);
         this.internalState.value = 'errored';
         toast.error(`Error loading preview - ${error || 'unknown'}`, { duration: 5000 });
         res();
       },
       onplayerror: (_id, error) => {
-        console.error('[Audio] play error', error);
+        console.error('[Audio] play error | ', error);
         toast.error(`Error playing preview - ${error || 'unknown'}`, { duration: 5000 });
         res();
       },

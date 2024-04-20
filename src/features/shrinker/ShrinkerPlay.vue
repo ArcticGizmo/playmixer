@@ -1,5 +1,13 @@
 <template>
   <StartOverlay :show="!isStarted" @start="emits('start')" />
+  <v-btn
+    class="music-loading-icon"
+    icon="mdi-music"
+    color="secondary"
+    variant="tonal"
+    size="small"
+    @click="onShowLoading()"
+  />
   <div class="layout w-100 h-100">
     <div class="header w-100 d-flex pa-2">
       <CenteredDiv class="counter">{{ roundIndex + 1 }} / {{ maxRounds }}</CenteredDiv>
@@ -90,6 +98,8 @@ import { useWindowSize } from '@vueuse/core';
 import { computed } from 'vue';
 import { Track } from '@/types/spotify.types';
 import StartOverlay from '@/components/StartOverlay.vue';
+import { useModalController } from '@/modals';
+import MusicLoadingModal from '@/modals/MusicLoadingModal.vue';
 
 const props = defineProps<{
   isStarted: boolean;
@@ -106,6 +116,8 @@ const emits = defineEmits<{
   (e: 'back'): void;
   (e: 'replay'): void;
 }>();
+
+const modalController = useModalController();
 
 const { width, height } = useWindowSize();
 const horizontal = computed(() => width.value > height.value);
@@ -127,6 +139,13 @@ const onSelect = (index: number) => {
   });
 
   emits('select', { kept, removed });
+};
+
+const onShowLoading = async () => {
+  await modalController.show({
+    component: MusicLoadingModal,
+    options: { maxWidth: '80vw' },
+  });
 };
 </script>
 
@@ -180,5 +199,12 @@ const onSelect = (index: number) => {
 .actions {
   display: flex;
   gap: 0.5rem;
+}
+
+.music-loading-icon {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 20;
 }
 </style>

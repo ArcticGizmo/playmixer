@@ -38,5 +38,6 @@ const onShowErrors = async () => {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
+  z-index: 20;
 }
 </style>

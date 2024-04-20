@@ -103,7 +103,7 @@ export const useShrinker = () => {
     const alltracks = rounds.value
       .map(r => r.tracks)
       .flat()
-      .map(t => t.previewUrl!)
+      .map(t => t.previewUrl)
       .filter(p => !!p) as string[];
     AudioManager.add(alltracks, previewDuration.value);
     isStarted.value = true;

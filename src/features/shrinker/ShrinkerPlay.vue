@@ -70,10 +70,9 @@
               <v-tooltip location="top">
                 <template #activator="{ props: p }">
                   <v-btn
-                    v-show="round.done.value"
                     v-bind="p"
-                    class="keep-btn"
                     :class="{ 'keep-btn': round.done.value }"
+                    :variant="round.done.value ? undefined : 'tonal'"
                     icon="mdi-heart"
                     size="small"
                     @click="onSelect(index)"

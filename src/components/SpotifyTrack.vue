@@ -6,7 +6,7 @@
           <DivOverlay :show="noPreview">
             <v-img :src="artworkSrc" aspect-ratio="1" />
             <template #overlay>
-              <span class="no-preview">No Preview</span>
+              <v-icon size="x-large">mdi-music-off</v-icon>
             </template>
           </DivOverlay>
           <div class="pl-4">
@@ -22,7 +22,7 @@
         <DivOverlay :show="noPreview">
           <v-img :src="artworkSrc" aspect-ratio="1" />
           <template #overlay>
-            <span class="no-preview">No Preview</span>
+            <v-icon size="x-large">mdi-music-off</v-icon>
           </template>
         </DivOverlay>
         <div class="mt-2">

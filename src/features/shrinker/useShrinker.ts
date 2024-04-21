@@ -8,7 +8,7 @@ import {
   ShrinkerStage,
 } from './shrinker.types';
 import { Track } from '@/types/spotify.types';
-import { AudioManager } from '@/composables/audio';
+import { AudioManager } from '@/composables/vAudio';
 import { useToast } from 'vue-toast-notification';
 
 const DEFAULT_PREVIEW_DURATION = 5_000;

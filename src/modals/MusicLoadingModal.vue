@@ -31,8 +31,8 @@
 </template>
 
 <script setup lang="ts">
-import { AudioManager } from '@/composables/audio';
-import type { AudioState } from '@/composables/audio';
+import { AudioManager } from '@/composables/vAudio';
+import type { AudioState } from '@/composables/vAudio';
 import ModalLayout from './ModalLayout.vue';
 import { computed } from 'vue';
 import { firstBy } from 'thenby';
@@ -40,6 +40,7 @@ import { firstBy } from 'thenby';
 const ICONS: Record<AudioState, { icon: string; color?: string }> = {
   unloaded: { icon: 'mdi-crosshairs-question' },
   loading: { icon: 'loading' },
+  stalled: { icon: 'loading' },
   loaded: { icon: 'mdi-check', color: 'green' },
   errored: { icon: 'mdi-alert-circle-outline', color: 'red' },
 };

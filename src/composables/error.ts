@@ -40,5 +40,9 @@ export const useErrorCollector = () => {
     queue.value = [];
   };
 
-  return { errors: queue, clear };
+  const addError = (message: string, subtitle?: string) => {
+    add({ at: new Date(), message, subtitle });
+  };
+
+  return { errors: queue, clear, addError };
 };

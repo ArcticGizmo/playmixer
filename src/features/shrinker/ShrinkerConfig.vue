@@ -192,48 +192,38 @@ const onSubmit = async () => {
 };
 
 const submit = async () => {
-  try {
-    // fetch tracks
-    const allTracks = await fetchTracks();
-    shuffleInPlace(allTracks);
+  // fetch tracks
+  const allTracks = await fetchTracks();
+  shuffleInPlace(allTracks);
 
-    // if recommendations allowed, add those
-    if (form.value.useRecommendations) {
-      const trackIds = allTracks.map(t => t.id).slice(0, 5);
-      const variableTracks = await spotify.getRecommendations(trackIds, trackIds.length);
-      allTracks.push(...variableTracks);
-    }
-
-    // shuffle the tracks
-    shuffleInPlace(allTracks);
-
-    // const allTracks = (
-    //   await Promise.all(form.value.playlists.map(p => spotify.getPlaylistTracks(p.id)))
-    // ).flat();
-    // allTracks.push(...props.previousTracks);
-    // shuffleInPlace(allTracks);
-
-    const tracksPerRound = form.value.tracksPerRound;
-
-    const rounds: ShrinkerRound[] = chunk(allTracks, tracksPerRound)
-      .map(tracks => {
-        return { tracks };
-      })
-      .slice(0, form.value.maxRounds);
-
-    const payload: PlayConfig = {
-      previewDuration: form.value.previewLimit * 1000,
-      rounds,
-    };
-
-    if (import.meta.env.DEV) {
-      console.dir(payload);
-    }
-
-    // emits('next', payload);
-  } finally {
-    isLoading.value = false;
+  // if recommendations requested, add those as well
+  if (form.value.useRecommendations) {
+    const trackIds = allTracks.map(t => t.id).slice(0, 5);
+    const variableTracks = await spotify.getRecommendations(trackIds, trackIds.length);
+    allTracks.push(...variableTracks);
   }
+
+  // shuffle the tracks
+  shuffleInPlace(allTracks);
+
+  const tracksPerRound = form.value.tracksPerRound;
+
+  const rounds: ShrinkerRound[] = chunk(allTracks, tracksPerRound)
+    .map(tracks => {
+      return { tracks };
+    })
+    .slice(0, form.value.maxRounds);
+
+  const payload: PlayConfig = {
+    previewDuration: form.value.previewLimit * 1000,
+    rounds,
+  };
+
+  if (import.meta.env.DEV) {
+    console.dir(payload);
+  }
+
+  emits('next', payload);
 };
 
 const fetchTracks = async () => {

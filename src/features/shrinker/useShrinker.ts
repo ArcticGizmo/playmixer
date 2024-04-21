@@ -18,7 +18,7 @@ const delay = (wait: number) => new Promise(r => setTimeout(r, wait));
 const isTrackLoading = (previewUrl: string) => {
   return computed(() => {
     const state = AudioManager.state(previewUrl) as any as string;
-    return previewUrl && state !== 'loaded';
+    return !!previewUrl && state !== 'loaded';
   });
 };
 
@@ -53,6 +53,7 @@ export const useShrinker = () => {
 
     const tracks: ShrinkerActiveTrack[] = cr.tracks.map(t => {
       return {
+        id: t.id,
         uri: t.uri,
         href: t.href,
         name: t.name,

@@ -1,6 +1,6 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import { useSpotifyAuth } from './spotify';
-import { AudioManager } from './audio';
+import { AudioManager } from './vAudio';
 
 export const useRouteGuard = async (
   to: RouteLocationNormalized,

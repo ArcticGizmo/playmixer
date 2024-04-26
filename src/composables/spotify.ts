@@ -112,6 +112,9 @@ const getPlaylistTracks = async (id: string): Promise<Track[]> => {
     const resp = await SDK.playlists.getPlaylistItems(id, undefined, FIELDS, LIMIT, i * LIMIT);
     const tracks: Track[] = [];
     for (const r of resp.items) {
+      if (!r.track) {
+        continue;
+      }
       const imageSrc = r.track.album.images[0]?.url || undefined;
       tracks.push({
         id: r.track.id,
@@ -137,7 +140,7 @@ const getPlaylistTracks = async (id: string): Promise<Track[]> => {
 const getRecommendations = async (trackIds: string[], limit: number): Promise<Track[]> => {
   if (limit < 1) limit = 1;
   if (limit > 100) limit = 100;
-  
+
   const payload: RecommendationsRequest = {
     limit: 5,
     seed_tracks: trackIds.slice(0, 5),

@@ -109,8 +109,14 @@ export const useShrinker = () => {
     previousTracks.value = tracks || [];
   };
 
+  const keepGoing = (tracks?: Track[]) => {
+    reset();
+    goToConfig(tracks);
+  };
+
   const goToPlay = async (config: PlayConfig) => {
     previewDuration.value = config.previewDuration;
+    roundIndex.value = 0;
     rounds.value = config.rounds;
     stage.value = 'play';
     isStarted.value = false;
@@ -172,6 +178,7 @@ export const useShrinker = () => {
     goToConfig,
     goToPlay,
     goToResults,
+    keepGoing,
     nextRound,
     previousRound,
     start,

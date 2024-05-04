@@ -3,29 +3,9 @@
     <DivOverlay :show="isLoading">
       <v-card class="pa-10">
         <form @submit.prevent="onSubmit">
-          <template v-if="hasPreviousTracks">
-            <h4>You brought {{ previousTracks.length }} to go around again!</h4>
-            <InfiniteScroller duration="80s">
-              <SpotifyTrackTile
-                v-for="(track, index) of previousTracks"
-                :key="index"
-                :track-name="track.name"
-                :artwork-src="track.imageSrc"
-                :artist="track.artist"
-              >
-                <v-btn
-                  class="spotify-btn pa-2"
-                  icon
-                  size="small"
-                  variant="text"
-                  :href="track.href"
-                  target="_blank"
-                >
-                  <img src="/spotify.svg" height="100%" width="100%" />
-                </v-btn>
-              </SpotifyTrackTile>
-            </InfiniteScroller>
-          </template>
+          <h4 v-if="hasPreviousTracks" class="mb-4">
+            You brought {{ previousTracks.length }} tracks to go around again!
+          </h4>
 
           <h4>Pick your playlists</h4>
           <v-autocomplete
@@ -124,8 +104,6 @@ import { Playlist, Track } from '@/types/spotify.types';
 import { PlayConfig, ShrinkerRound } from './shrinker.types';
 import { shuffleInPlace } from '@/util/shuffle';
 import { chunk } from '@/util/enumerable';
-import SpotifyTrackTile from '@/components/SpotifyTrackTile.vue';
-import InfiniteScroller from '@/components/InfiniteScroller.vue';
 import DivOverlay from '@/components/DivOverlay.vue';
 
 interface Form {
@@ -225,7 +203,7 @@ const submit = async () => {
   };
 
   if (import.meta.env.DEV) {
-    console.dir(payload);
+    console.log('[dev] play config', payload);
   }
 
   emits('next', payload);

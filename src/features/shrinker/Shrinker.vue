@@ -25,7 +25,7 @@
       :kept="results.map(r => r.kept).flat()"
       :removed="results.map(r => r.removed).flat()"
       @reset="goToConfig()"
-      @keep-going="goToConfig"
+      @keep-going="keepGoing"
     />
   </div>
 </template>
@@ -42,6 +42,7 @@ const {
   goToWelcome,
   goToConfig,
   goToPlay,
+  keepGoing,
   nextRound,
   previousRound,
   roundIndex,

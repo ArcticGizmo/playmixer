@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 // Plugins
 import Vue from '@vitejs/plugin-vue';
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
@@ -12,8 +13,7 @@ export default defineConfig({
   plugins: [
     Vue({
       template: { transformAssetUrls },
-    }),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
+    }), // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
     Vuetify({
       autoImport: true,
       styles: {
@@ -30,15 +30,26 @@ export default defineConfig({
         ],
       },
     }),
+    sentryVitePlugin({
+      org: 'arcticgizmo',
+      project: 'playmixer',
+    }),
   ],
+
   define: { 'process.env': {} },
+
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
     extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
   },
+
   server: {
     port: 3000,
+  },
+
+  build: {
+    sourcemap: true,
   },
 });

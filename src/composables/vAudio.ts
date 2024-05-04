@@ -125,7 +125,7 @@ export class VAudio {
       );
       this.once('ended', () => resolve('finished'), abortCon.signal);
       this.once('error', e => reject(e), abortCon.signal);
-      this.once('pause', () => reject('paused'), abortCon.signal);
+      this.once('pause', () => resolve('paused'), abortCon.signal);
     });
 
     await this._el.play();
